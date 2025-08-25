@@ -1,7 +1,7 @@
 # Node.js application with multi-stage build
 
 # Development stage
-FROM node:18-alpine as development
+FROM node:24-alpine AS development
 WORKDIR /app
 
 # Copy package files
@@ -20,7 +20,7 @@ EXPOSE 3000
 CMD ["npm", "start"]
 
 # Production stage
-FROM node:18-alpine as production
+FROM node:24-alpine AS production
 WORKDIR /app
 
 # Copy package files
