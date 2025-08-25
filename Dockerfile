@@ -26,14 +26,19 @@ WORKDIR /app
 # Copy package files
 COPY package.json package-lock.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install all dependencies for building
+RUN npm ci
 
-# Copy application code
-COPY . .
+# Copy source code and config
+COPY src/ ./src/
+COPY config/ ./config/
+COPY tsconfig.json ./
 
 # Build the application
 RUN npm run build
+
+# Remove development dependencies
+RUN npm ci --only=production && npm cache clean --force
 
 # Expose port
 EXPOSE 3000
