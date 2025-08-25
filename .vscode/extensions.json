@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "dbaeumer.vscode-eslint",
+    "redhat.vscode-yaml",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-json",
+    "ms-vscode.vscode-css-peek",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode.hexeditor"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript"
+  ]
+}
