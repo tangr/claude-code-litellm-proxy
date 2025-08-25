@@ -14,6 +14,10 @@
 
 项目已配置完整的 Docker 开发和生产环境。
 
+## 项目介绍
+
+这个项目的主要功能是将 claude code 请求转发到 litellm，作为 proxy。
+
 ## 架构
 
 这是一个使用 TypeScript 和 React 19 的 Create React App 项目。代码库遵循标准的 CRA 结构：
