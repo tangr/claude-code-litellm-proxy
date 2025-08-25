@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      target: development
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ./config:/app/config:ro
+    ports:
+      - "3000:3000"
+    command: npm start
+    stdin_open: true
+    tty: true

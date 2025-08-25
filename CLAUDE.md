@@ -12,7 +12,7 @@
 - `docker-compose down` - 停止所有服务
 - `docker-compose logs` - 查看所有服务的日志
 
-注意：需要为此 React TypeScript 项目创建 Docker 配置文件（Dockerfile、docker-compose.yml）。
+项目已配置完整的 Docker 开发和生产环境。
 
 ## 架构
 
@@ -31,10 +31,13 @@
 - Jest 和 React Testing Library 进行测试
 - 代码注释使用英文
 
-## 需要 Docker 设置
+## Docker 配置
 
-项目目前缺少 Docker 配置。需要的文件：
+项目已完整配置 Docker 开发和生产环境：
 
-- `Dockerfile` - 用于构建 React 应用程序
-- `docker-compose.yml` - 用于编排开发和生产环境
-- `.dockerignore` - 排除 Docker 上下文中不必要的文件
+- `Dockerfile` - 多阶段构建，支持开发和生产环境
+- `docker-compose.yml` - 生产环境配置，包含健康检查
+- `docker-compose.override.yml` - 开发环境配置，支持热重载和文件监听
+- `.dockerignore` - 排除构建上下文中不必要的文件
+
+开发环境会自动使用 override 配置启用热重载和文件监听功能。
