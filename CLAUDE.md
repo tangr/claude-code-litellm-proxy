@@ -1,37 +1,37 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+此文件为 Claude Code (claude.ai/code) 在此代码库中工作时提供指导。
 
-## Development Commands
+## 开发命令
 
-This project uses Docker and Docker Compose for all development, startup and production workflows:
+此项目使用 Docker 和 Docker Compose 进行所有开发、启动和生产工作流程：
 
-- `docker-compose up` - Start development environment
-- `docker-compose up --build` - Rebuild and start development environment  
-- `docker-compose up -d` - Start in background
-- `docker-compose down` - Stop all services
-- `docker-compose logs` - View logs from all services
+- `docker-compose up` - 启动开发环境
+- `docker-compose up --build` - 重新构建并启动开发环境
+- `docker-compose up -d` - 在后台启动
+- `docker-compose down` - 停止所有服务
+- `docker-compose logs` - 查看所有服务的日志
 
-Note: Docker configuration files (Dockerfile, docker-compose.yml) need to be created for this React TypeScript project.
+注意：需要为此 React TypeScript 项目创建 Docker 配置文件（Dockerfile、docker-compose.yml）。
 
-## Architecture
+## 架构
 
-This is a Create React App project using TypeScript and React 19. The codebase follows standard CRA structure:
+这是一个使用 TypeScript 和 React 19 的 Create React App 项目。代码库遵循标准的 CRA 结构：
 
-- `src/` - Main application source code
-- `src/App.tsx` - Main application component  
-- `src/index.tsx` - Application entry point with React 19 root API
-- `public/` - Static assets and HTML template
+- `src/` - 主应用程序源代码
+- `src/App.tsx` - 主应用程序组件
+- `src/index.tsx` - 使用 React 19 root API 的应用程序入口点
+- `public/` - 静态资源和 HTML 模板
 
-The project uses:
-- TypeScript with strict mode enabled
-- React 19 with JSX transform
-- Create React App's built-in ESLint configuration
-- Jest and React Testing Library for testing
+项目使用：
+- 启用严格模式的 TypeScript
+- 带有 JSX 转换的 React 19
+- Create React App 的内置 ESLint 配置
+- Jest 和 React Testing Library 进行测试
 
-## Docker Setup Required
+## 需要 Docker 设置
 
-The project currently lacks Docker configuration. Required files:
-- `Dockerfile` - For building the React application
-- `docker-compose.yml` - For orchestrating development and production environments
-- `.dockerignore` - To exclude unnecessary files from Docker context
+项目目前缺少 Docker 配置。需要的文件：
+- `Dockerfile` - 用于构建 React 应用程序
+- `docker-compose.yml` - 用于编排开发和生产环境
+- `.dockerignore` - 排除 Docker 上下文中不必要的文件
