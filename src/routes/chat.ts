@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import { CostTracker } from '../services/cost-tracker';
 import { LiteLLMService } from '../services/litellm';
 import { AnthropicTransformer } from '../services/transformer';
 import { AnthropicMessagesRequest, ChatCompletionRequest } from '../types/api';
@@ -41,7 +42,7 @@ router.post('/chat/completions', async (req: Request, res: Response) => {
       }
     }
 
-    const response = await liteLLMService.chatCompletion(request, authToken);
+    const { response } = await liteLLMService.chatCompletion(request, authToken);
     res.json(response);
 
   } catch (error) {
@@ -150,8 +151,9 @@ router.post('/messages', async (req: Request, res: Response) => {
       // TODO: Implement proper streaming support
       try {
         const nonStreamingRequest = { ...openAIRequest, stream: false };
-        const openAIResponse = await liteLLMService.chatCompletion(nonStreamingRequest, authToken);
-        const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse);
+        const { response: openAIResponse, cost } = await liteLLMService.chatCompletion(nonStreamingRequest, authToken);
+
+        const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse, cost);
 
         // Send as server-sent event
         res.write(`event: message\n`);
@@ -166,8 +168,9 @@ router.post('/messages', async (req: Request, res: Response) => {
       }
     } else {
       // Handle non-streaming response
-      const openAIResponse = await liteLLMService.chatCompletion(openAIRequest, authToken);
-      const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse);
+      const { response: openAIResponse, cost } = await liteLLMService.chatCompletion(openAIRequest, authToken);
+
+      const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse, cost);
       res.json(anthropicResponse);
     }
 
@@ -179,6 +182,25 @@ router.post('/messages', async (req: Request, res: Response) => {
     res.status(500).json({
       error: {
         message: errorMessage,
+        type: 'internal_server_error'
+      }
+    });
+  }
+});
+
+// Cost tracking endpoint for Claude Code compatibility
+router.get('/cost', async (req: Request, res: Response) => {
+  try {
+    const costTracker = CostTracker.getInstance();
+    const costData = costTracker.getClaudeCodeFormat();
+
+    res.json(costData);
+  } catch (error) {
+    console.error('Cost endpoint error:', error);
+
+    res.status(500).json({
+      error: {
+        message: 'Failed to retrieve cost information',
         type: 'internal_server_error'
       }
     });

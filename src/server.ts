@@ -29,6 +29,7 @@ app.get('/', (req, res) => {
       chat: '/v1/chat/completions',
       messages: '/v1/messages',
       models: '/v1/models',
+      cost: '/v1/cost',
       health: '/health'
     }
   });
