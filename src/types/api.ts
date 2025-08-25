@@ -40,3 +40,55 @@ export interface ErrorResponse {
     code?: string;
   };
 }
+
+// Anthropic Messages API Types
+export interface AnthropicMessage {
+  role: 'user' | 'assistant';
+  content: string | Array<{
+    type: string;
+    text?: string;
+    [key: string]: any;
+  }>;
+}
+
+export interface AnthropicMessagesRequest {
+  model: string;
+  max_tokens: number;
+  messages: AnthropicMessage[];
+  system?: string | Array<{
+    type: string;
+    text: string;
+  }>;
+  temperature?: number;
+  top_p?: number;
+  top_k?: number;
+  stream?: boolean;
+  metadata?: {
+    user_id?: string;
+  };
+  stop_sequences?: string[];
+  tools?: Array<{
+    name: string;
+    description: string;
+    input_schema: any;
+  }>;
+  tool_choice?: any;
+  thinking?: string;
+}
+
+export interface AnthropicMessagesResponse {
+  id: string;
+  type: 'message';
+  role: 'assistant';
+  content: Array<{
+    type: 'text';
+    text: string;
+  }>;
+  model: string;
+  stop_reason: string | null;
+  stop_sequence: string | null;
+  usage: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+}

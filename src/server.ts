@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     endpoints: {
       chat: '/v1/chat/completions',
+      messages: '/v1/messages',
       models: '/v1/models',
       health: '/health'
     }
@@ -65,6 +66,7 @@ const startServer = async () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Health check: http://localhost:${PORT}/health`);
       console.log(`Chat completions: http://localhost:${PORT}/v1/chat/completions`);
+      console.log(`Messages API: http://localhost:${PORT}/v1/messages`);
     });
 
   } catch (error) {
