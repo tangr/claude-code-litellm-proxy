@@ -24,14 +24,17 @@
 - `public/` - 静态资源和 HTML 模板
 
 项目使用：
+
 - 启用严格模式的 TypeScript
 - 带有 JSX 转换的 React 19
 - Create React App 的内置 ESLint 配置
 - Jest 和 React Testing Library 进行测试
+- 代码注释使用英文
 
 ## 需要 Docker 设置
 
 项目目前缺少 Docker 配置。需要的文件：
+
 - `Dockerfile` - 用于构建 React 应用程序
 - `docker-compose.yml` - 用于编排开发和生产环境
 - `.dockerignore` - 排除 Docker 上下文中不必要的文件
