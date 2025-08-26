@@ -102,6 +102,7 @@ export class CostTracker {
     const wallDurationSec = this.getWallDuration();
 
     return {
+      totalTokens: totalTokens,
       totalCost: this.totalCost,
       totalDurationAPI: totalDurationSec,
       totalDurationWall: wallDurationSec,
