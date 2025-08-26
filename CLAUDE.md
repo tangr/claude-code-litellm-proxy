@@ -25,6 +25,7 @@
 - `docker-compose logs` - 查看所有服务的日志
 
 本地开发命令：
+
 - `npm run dev` - 启动开发服务器（需要 ts-node）
 - `npm run build` - 构建 TypeScript 项目
 - `npm start` - 启动生产服务器
@@ -34,7 +35,8 @@
 这是一个使用 **Node.js + Express + TypeScript** 的代理服务器项目：
 
 ### 目录结构
-```
+
+```text
 src/
 ├── types/          # TypeScript 类型定义
 │   ├── api.ts      # API 请求/响应类型
@@ -49,6 +51,7 @@ src/
 ```
 
 ### 核心组件
+
 - **ConfigLoader**: YAML 配置文件加载和管理
 - **LiteLLMService**: 负责转发请求到 LiteLLM
 - **Chat Router**: 处理 `/v1/chat/completions` 端点
@@ -122,7 +125,7 @@ curl -X POST http://localhost:3000/v1/chat/completions \
   -d '{"model": "claude-sonnet-4-20250514", "messages": [{"role": "user", "content": "Hello!"}], "max_tokens": 50}'
 ```
 
-# important-instruction-reminders
+## important-instruction-reminders
 
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
