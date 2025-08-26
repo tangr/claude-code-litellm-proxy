@@ -42,7 +42,15 @@ router.post('/chat/completions', async (req: Request, res: Response) => {
       }
     }
 
-    const { response } = await liteLLMService.chatCompletion(request, authToken);
+    const { response, headers: litellmHeaders } = await liteLLMService.chatCompletion(request, authToken);
+
+    // Forward all LiteLLM headers to client
+    Object.entries(litellmHeaders).forEach(([key, value]) => {
+      if (key.startsWith('x-litellm-') || key.startsWith('x-anthropic-')) {
+        res.setHeader(key, value as string);
+      }
+    });
+
     res.json(response);
 
   } catch (error) {
@@ -151,9 +159,22 @@ router.post('/messages', async (req: Request, res: Response) => {
       // TODO: Implement proper streaming support
       try {
         const nonStreamingRequest = { ...openAIRequest, stream: false };
-        const { response: openAIResponse, cost } = await liteLLMService.chatCompletion(nonStreamingRequest, authToken);
+        const { response: openAIResponse, cost, headers: litellmHeaders } = await liteLLMService.chatCompletion(nonStreamingRequest, authToken);
 
         const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse, cost);
+
+        // Forward all LiteLLM headers to Claude Code client
+        const forwardedHeaders: Record<string, any> = {};
+        Object.entries(litellmHeaders).forEach(([key, value]) => {
+          if (key.startsWith('x-litellm-') || key.startsWith('x-anthropic-')) {
+            res.setHeader(key, value as string);
+            forwardedHeaders[key] = value;
+          }
+        });
+
+        // Debug: Log the forwarded headers and response
+        console.log('Forwarded headers:', forwardedHeaders);
+        console.log('Streaming response to Claude Code:', JSON.stringify(anthropicResponse, null, 2));
 
         // Send as server-sent event
         res.write(`event: message\n`);
@@ -168,9 +189,23 @@ router.post('/messages', async (req: Request, res: Response) => {
       }
     } else {
       // Handle non-streaming response
-      const { response: openAIResponse, cost } = await liteLLMService.chatCompletion(openAIRequest, authToken);
+      const { response: openAIResponse, cost, headers: litellmHeaders } = await liteLLMService.chatCompletion(openAIRequest, authToken);
 
       const anthropicResponse = AnthropicTransformer.openAIToAnthropic(openAIResponse, cost);
+
+      // Forward all LiteLLM headers to Claude Code client
+      const forwardedHeaders: Record<string, any> = {};
+      Object.entries(litellmHeaders).forEach(([key, value]) => {
+        if (key.startsWith('x-litellm-') || key.startsWith('x-anthropic-')) {
+          res.setHeader(key, value as string);
+          forwardedHeaders[key] = value;
+        }
+      });
+
+      // Debug: Log the forwarded headers and response
+      console.log('Forwarded headers:', forwardedHeaders);
+      console.log('Non-streaming response to Claude Code:', JSON.stringify(anthropicResponse, null, 2));
+
       res.json(anthropicResponse);
     }
 

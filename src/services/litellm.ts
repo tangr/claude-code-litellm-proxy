@@ -13,7 +13,7 @@ export class LiteLLMService {
     this.costTracker = CostTracker.getInstance();
   }
 
-  public async chatCompletion(request: ChatCompletionRequest, authToken?: string): Promise<{ response: ChatCompletionResponse; cost: number }> {
+  public async chatCompletion(request: ChatCompletionRequest, authToken?: string): Promise<{ response: ChatCompletionResponse; cost: number; headers: Record<string, any> }> {
     try {
       const provider = this.getProviderForModel(request.model);
       if (!provider) {
@@ -55,7 +55,7 @@ export class LiteLLMService {
         );
       }
 
-      return { response: response.data, cost };
+      return { response: response.data, cost, headers: response.headers };
     } catch (error) {
       console.error('Error calling LiteLLM:', error);
       throw this.handleError(error);
